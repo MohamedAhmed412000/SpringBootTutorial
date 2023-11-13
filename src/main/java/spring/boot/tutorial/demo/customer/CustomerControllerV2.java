@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import spring.boot.tutorial.demo.exception.ApiOldExceptionForm;
 
 @RequestMapping(path = "api/v2/customers")
 @RestController
@@ -28,8 +30,18 @@ public class CustomerControllerV2 {
 	}
 	
 	@GetMapping(value = "{customerId}")
-	Customer getCustomer(@PathVariable("customerId") Long id) {
-		return customerService.getCustomer(id);
+	Customer getCustomer(
+		@PathVariable("customerId") Long id,
+		@RequestParam(value = "throw", defaultValue = "false") Boolean showThrowable
+	) {
+		return customerService.getCustomer(id, showThrowable);
+	}
+	
+	@GetMapping(value = "exception")
+	Customer testException(
+		@RequestParam(value = "throw", defaultValue = "false") Boolean showThrowable
+	) {
+		throw new ApiOldExceptionForm("Test Exception in customer", showThrowable);
 	}
 
 	@PostMapping

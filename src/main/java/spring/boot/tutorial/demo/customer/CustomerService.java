@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import spring.boot.tutorial.demo.exception.NotFoundException;
+
 @Service
 public class CustomerService {
     private final CustomerRepo customerRepo;
@@ -16,11 +18,11 @@ public class CustomerService {
         return customerRepo.getCustomers();
     }
 
-    Customer getCustomer(Long id) {
+    Customer getCustomer(Long id, Boolean showThrowable) {
         return getCustomers().stream()
             .filter(customer -> customer.getId().equals(id))
             .findFirst().orElseThrow(() -> 
-                new IllegalStateException("Customer with id=" + id + " not found"));
+                new NotFoundException("Customer with id=" + id + " not found", showThrowable));
     }
 
 }
