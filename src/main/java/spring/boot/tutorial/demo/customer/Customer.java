@@ -5,29 +5,79 @@ import org.hibernate.validator.constraints.Length;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+@Entity(name = "Customer")
+@Table(
+    name = "customer",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email", name = "customer_email_unique")
+    }
+)
 public class Customer {
+    @Id
+    @SequenceGenerator(
+        name = "customer_sequence", 
+        sequenceName = "customer_sequence",
+        allocationSize = 1,
+        initialValue = 1
+    )
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE, 
+        generator = "customer_sequence"
+    )
+    @Column(name = "id", updatable = false)
     private final Long id;
     
-    @NotBlank(message = "Name can't be empty")
-    private final String name;
-
+    @NotBlank(message = "FirstName can't be empty")
+    @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
+    private final String firstname;
+    
+    @NotBlank(message = "LastName can't be empty")
+    @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
+    private final String lastname;
+    
     @NotBlank(message = "Email can't be empty")
+    @Column(name = "email", nullable = false, unique = true, columnDefinition = "TEXT")
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     private final String email;
-
+    
+    @NotBlank
+    @Min(value = 16)
+    @Max(value = 80)
+    @Column(name = "age")
+    private final Integer age;
+    
     @NotBlank(message = "Password can't be empty")
     @Length(min = 6, max = 20)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "password")
     private final String password; 
-
-    
-    public Customer(Long id, String name, String email, String password) {
+ 
+    public Customer(
+        Long id, 
+        @NotBlank(message = "FirstName can't be empty") String firstname,
+        @NotBlank(message = "LastName can't be empty") String lastname,
+        @NotBlank(message = "Email can't be empty") @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") String email,
+        @NotBlank @Min(16) @Max(80) Integer age,
+        @NotBlank(message = "Password can't be empty") @Length(min = 6, max = 20) String password
+    ) {
         this.id = id;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
+        this.age = age;
         this.password = password;
     }
 
@@ -36,12 +86,20 @@ public class Customer {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getEmail() {
         return email;
+    }
+    
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+    
+    public Integer getAge() {
+        return age;
     }
     
     @JsonIgnore
@@ -51,7 +109,8 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+        return "Customer [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+                + ", age=" + age + ", password=" + password + "]";
     }
-    
+
 }
