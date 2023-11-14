@@ -8,14 +8,14 @@ import spring.boot.tutorial.demo.exception.NotFoundException;
 
 @Service
 public class CustomerService {
-    private final CustomerRepo customerRepo;
+    private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepo customerRepo) {
-        this.customerRepo = customerRepo;
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     List<Customer> getCustomers() {
-        return customerRepo.getCustomers();
+        return customerRepository.getCustomers();
     }
 
     Customer getCustomer(Long id, Boolean showThrowable) {

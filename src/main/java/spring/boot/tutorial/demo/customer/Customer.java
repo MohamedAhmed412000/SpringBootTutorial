@@ -38,7 +38,7 @@ public class Customer {
         generator = "customer_sequence"
     )
     @Column(name = "id", updatable = false)
-    private final Long id;
+    private Long id;
     
     @NotBlank(message = "FirstName can't be empty")
     @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
@@ -66,14 +66,12 @@ public class Customer {
     private final String password; 
  
     public Customer(
-        Long id, 
         @NotBlank(message = "FirstName can't be empty") String firstname,
         @NotBlank(message = "LastName can't be empty") String lastname,
         @NotBlank(message = "Email can't be empty") @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") String email,
         @NotBlank @Min(16) @Max(80) Integer age,
         @NotBlank(message = "Password can't be empty") @Length(min = 6, max = 20) String password
     ) {
-        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
