@@ -43,8 +43,13 @@
 			<groupId>org.postgresql</groupId>
 			<scope>runtime</scope>
 		</dependency>
-		
 
+		<dependency>
+			<artifactId>javafaker</artifactId>
+			<groupId>com.github.javafaker</groupId>
+			<version>0.12</version>
+		</dependency>
+		
 		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
