@@ -42,34 +42,33 @@ public class Customer {
     
     @NotBlank(message = "FirstName can't be empty")
     @Column(name = "first_name", nullable = false, columnDefinition = "TEXT")
-    private final String firstname;
+    private String firstname;
     
     @NotBlank(message = "LastName can't be empty")
     @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
-    private final String lastname;
+    private String lastname;
     
     @NotBlank(message = "Email can't be empty")
     @Column(name = "email", nullable = false, unique = true, columnDefinition = "TEXT")
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-    private final String email;
-    
-    @NotBlank
+    private String email;
+
     @Min(value = 16)
     @Max(value = 80)
     @Column(name = "age")
-    private final Integer age;
+    private Integer age;
     
     @NotBlank(message = "Password can't be empty")
     @Length(min = 6, max = 20)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
-    private final String password; 
+    private String password; 
  
     public Customer(
         @NotBlank(message = "FirstName can't be empty") String firstname,
         @NotBlank(message = "LastName can't be empty") String lastname,
         @NotBlank(message = "Email can't be empty") @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") String email,
-        @NotBlank @Min(16) @Max(80) Integer age,
+        @Min(16) @Max(80) Integer age,
         @NotBlank(message = "Password can't be empty") @Length(min = 6, max = 20) String password
     ) {
         this.firstname = firstname;
@@ -78,6 +77,8 @@ public class Customer {
         this.age = age;
         this.password = password;
     }
+
+    public Customer() {}
 
     @JsonProperty("customerId")
     public Long getId() {
@@ -105,6 +106,10 @@ public class Customer {
         return password;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     @Override
     public String toString() {
         return "Customer [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email

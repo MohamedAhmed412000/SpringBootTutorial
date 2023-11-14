@@ -48,6 +48,7 @@ public class CustomerControllerV2 {
 	void createCustomer(@Valid @RequestBody Customer customer) {
 		System.out.println("Created new customer");
 		System.out.println(customer);
+		customerService.createCustomer(customer);
 	}
 
 	@PutMapping(path = "{customerId}")
@@ -57,11 +58,13 @@ public class CustomerControllerV2 {
 	) {
 		System.out.println("Update data of customer with id = " + id);
 		System.out.println("The new data: " + customer);
+		customerService.updateCustomer(customer, id);
 	}
 
 	@DeleteMapping(path = "{customerId}")
 	void deleteCustomer(@PathVariable("customerId") Long id) {
 		System.out.println("Delete customer with id = " + id);
+		customerService.deleteCustomer(id);
 	}
     
 }

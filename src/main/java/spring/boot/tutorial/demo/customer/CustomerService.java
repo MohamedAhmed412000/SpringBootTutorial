@@ -15,14 +15,25 @@ public class CustomerService {
     }
 
     List<Customer> getCustomers() {
-        return customerRepository.getCustomers();
+        return customerRepository.findAll();
     }
 
     Customer getCustomer(Long id, Boolean showThrowable) {
-        return getCustomers().stream()
-            .filter(customer -> customer.getId().equals(id))
-            .findFirst().orElseThrow(() -> 
-                new NotFoundException("Customer with id=" + id + " not found", showThrowable));
+        return customerRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Customer with id=" + id + " not found", showThrowable));
+    }
+
+    void createCustomer(Customer customer) {
+        customerRepository.save(customer);
+    }
+
+    void updateCustomer(Customer customer, Long id) {
+        customer.setId(id);
+        customerRepository.save(customer);
+    }
+
+    void deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
     }
 
 }
