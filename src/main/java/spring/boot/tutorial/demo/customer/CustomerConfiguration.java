@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.ScrollPosition.Direction;
 
@@ -39,6 +40,11 @@ public class CustomerConfiguration {
                             .and(Sort.by("age")).descending();
             customerRepository.findAll(sort)
                 .forEach(customer -> System.out.println(customer));
+
+            PageRequest pageRequest = PageRequest.of(1, 5, Sort.by("firstname").ascending());
+            customerRepository.findAll(pageRequest)
+                .forEach(customer -> System.out.println(customer));
+
         };
     }
 
