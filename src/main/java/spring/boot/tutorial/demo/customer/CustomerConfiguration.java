@@ -33,7 +33,7 @@ public class CustomerConfiguration {
             //     )
             // );
             
-            // generateCustomers(customerRepository, 20);
+            generateCustomers(customerRepository, 20);
             // // Multi sorting example
             // Sort sort = Sort.by("firstname").ascending()
             //                 .and(Sort.by("lastname").ascending())
